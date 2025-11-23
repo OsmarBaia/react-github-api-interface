@@ -1,12 +1,32 @@
 import { useState } from 'react'
-import './App.css'
+import Layout from "./components/layout/layout";
+import NoSearch from "./components/no-search/no-search";
+import Profile from "./components/profile/profile";
+import Repositories from "./components/repositories/repositoiries";
+
+import useGithub from "./hooks/useGithub";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { githubState } = useGithub();
 
   return (
     <>
-      Hello World
+      <Layout>
+        {githubState.hasUser ? (
+          <>
+            {githubState.loading ? (
+              <p>Loading</p>
+            ) : (
+              <>
+                <Profile />
+                <Repositories />
+              </>
+            )}
+          </>
+        ) : (
+          <NoSearch />
+        )}
+      </Layout>
     </>
   )
 }
